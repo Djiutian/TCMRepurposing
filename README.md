@@ -8,9 +8,9 @@ The code of paper Semantic Repurposing Model for Traditional Chinese Ancient For
 ## Running the code 
 To reproduce the results , run the following commands.
 
-###Formula-to-Formula
+### Formula-to-Formula
 
 python FormulaToFormula.py
 
-###Symptom-to-Formula
+### Symptom-to-Formula
 python SymptomToFormula.py
