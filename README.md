@@ -27,9 +27,10 @@ Replace '复方丹参片' with the name of the formula you want to use.
 python SymptomToFormula.py
 #### Changing the Symptoms
 
-To use a different symptoms, open the code and go to line 66:
+To use a different symptoms, open the code and go to line 243:
 
 ```python
-input_prescription = '复方丹参片'
+  input_syndrome = ['发热', '发热', '头晕', '咽痛']
 ```
+Replace the symptoms in the array with other symptoms.
 
