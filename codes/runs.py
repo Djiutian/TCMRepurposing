@@ -13,8 +13,6 @@ from models import KGEModel, ModE, HAKE
 from data import TrainDataset, BatchType, ModeType, DataReader
 from data import BidirectionalOneShotIterator
 
-from bayes_opt import BayesianOptimization
-
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser(
@@ -473,44 +471,9 @@ def run_opt(learning_rate, gamma, adversarial_temperature, modulus_weight, phase
     return HITS_6  # 返回最大值
 
 
-def run_bayes(args):
-    # 使用贝叶斯进行优化
-    pbounds = {
-        # 'learning_rate': (args.learning_rate, 0.01),
-        'learning_rate': (0.000001, 0.0003),
-        # 'hidden_dim': (args.hidden_dim - 50, args.hidden_dim + 50),
-        'gamma': (5, 25),
-        'adversarial_temperature': (0.4, 1.1),
-        'modulus_weight': (0.4, 4),
-        'phase_weight': (0.1, 1.0)
-    }
-    optimizer = BayesianOptimization(
-        f=run_opt,
-        # f=optimize_rotate,
-        pbounds=pbounds,
-        verbose=2,  # 打印优化过程信息
-        # random_state=1
-    )
-    # 执行贝叶斯优化
-    optimizer.maximize(init_points=6, n_iter=15)  # 设置迭代次数
-    # 获取最优参数
-    best_params = optimizer.max['params']
-    args.learning_rate = best_params['learning_rate']
-    args.gamma = best_params['gamma']
-    args.adversarial_temperature = best_params['adversarial_temperature']
-    args.modulus_weight = best_params['modulus_weight']
-    args.phase_weight = best_params['phase_weight']
-    # args.hidden_dim = int(best_params['hidden_dim'])
-    # args.regularization = best_params['regularization']
-    with open(os.path.join(args.save_path, 'bayes_config.json'), 'w') as fjson:
-        json.dump(best_params, fjson)
-    print('learning_rate:', best_params['learning_rate'])
-    # print('hidden_dim:', best_params['hidden_dim'])
-    # print('regularization:', best_params['regularization'])
-    print('best_params', best_params)
-    run_model(args)
+
 
 
 if __name__ == '__main__':
     run_model(parse_args())
-    # run_bayes(parse_args())
+   
